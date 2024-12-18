@@ -9,7 +9,9 @@ public enum MessageEnum {
     UPDATE_SUCCESS(6, "The record has been updated successfully!"),
     DELETE_SUCCESS(7, "The record has been deleted successfully!"),
     RECORD_EXISTS(8, "The record already exists!"),
-    EMPTY_LIST(9, "The list is empty!");
+    EMPTY_LIST(9, "The list is empty!"),
+    AUTHOR_ALREADY_EXISTS(10, "The author already exists!"),
+    WRONG_EMAIL_FORMAT(11, "The email is not formatted!");
 
     private final Integer code;
     private final String message;

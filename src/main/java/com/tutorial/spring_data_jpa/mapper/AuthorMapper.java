@@ -3,8 +3,11 @@ package com.tutorial.spring_data_jpa.mapper;
 import com.tutorial.spring_data_jpa.dto.AuthorRequestDTO;
 import com.tutorial.spring_data_jpa.dto.AuthorResponseDTO;
 import com.tutorial.spring_data_jpa.entity.Author;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 public class AuthorMapper {
 
     
