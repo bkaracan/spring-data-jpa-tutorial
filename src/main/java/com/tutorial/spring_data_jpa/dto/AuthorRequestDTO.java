@@ -4,21 +4,23 @@ import jakarta.validation.constraints.*;
 
 public class AuthorRequestDTO {
 
-    @NotBlank(message = "First name cannot be blank")
-    @Size(max = 100, message = "First name cannot exceed 100 characters")
+    @NotBlank(message = "First name cannot be blank!")
+    @Size(max = 100, message = "First name cannot exceed 100 characters!")
+    @Pattern(regexp = "^[\\p{L}]+(?:\\s[\\p{L}]+)*$", message = "First name must contain only letters from any alphabet!")
     private String firstName;
 
-    @NotBlank(message = "Last name cannot be blank")
-    @Size(max = 100, message = "Last name cannot exceed 100 characters")
+    @NotBlank(message = "Last name cannot be blank!")
+    @Size(max = 100, message = "Last name cannot exceed 100 characters!")
+    @Pattern(regexp = "^[\\p{L}]+(?:\\s[\\p{L}]+)*$", message = "Last name must contain only letters from any alphabet!")
     private String lastName;
 
     @NotNull(message = "Age is required")
-    @Min(value = 18, message = "Age must be at least 18")
-    @Max(value = 100, message = "Age must be less than or equal to 100")
+    @Min(value = 18, message = "Age must be at least 18!")
+    @Max(value = 100, message = "Age must be less than or equal to 100!")
     private Integer age;
 
-    @NotBlank(message = "Email cannot be blank")
-    @Email(message = "Email should be a valid email format")
+    @NotBlank(message = "Email cannot be blank!")
+    @Email(message = "Email should be a valid format!")
     private String email;
 
     public String getFirstName() {
