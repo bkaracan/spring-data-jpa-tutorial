@@ -8,7 +8,6 @@ public class AuthorResponseDTO {
     private Integer age;
     private String email;
 
-    // Private constructor (Builder ile kullanılacak)
     private AuthorResponseDTO(Builder builder) {
         this.id = builder.id;
         this.firstName = builder.firstName;
