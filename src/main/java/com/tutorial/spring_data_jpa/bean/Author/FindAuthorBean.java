@@ -1,4 +1,4 @@
-package com.tutorial.spring_data_jpa.bean;
+package com.tutorial.spring_data_jpa.bean.Author;
 
 import com.tutorial.spring_data_jpa.dto.AuthorResponseDTO;
 import com.tutorial.spring_data_jpa.enums.MessageEnum;
@@ -15,14 +15,17 @@ public class FindAuthorBean extends AbstractResponsePayload {
 
     private final AuthorRepository authorRepository;
 
+    private final AuthorMapper authorMapper;
+
     @Autowired
-    public FindAuthorBean(AuthorRepository authorRepository) {
+    public FindAuthorBean(AuthorRepository authorRepository, AuthorMapper authorMapper) {
         this.authorRepository = authorRepository;
+        this.authorMapper = authorMapper;
     }
 
     public ResponsePayload<AuthorResponseDTO> findById(Long id) {
         return authorRepository.findById(id)
-                .map(AuthorMapper::toResponseDTO)
+                .map(authorMapper::toResponseDTO)
                 .map(dto -> createSuccessResponse(MessageEnum.FETCH_SUCCESS.getMessage(), dto))
                 .orElseGet(() -> createErrorResponse(ResponseEnum.NOT_FOUND, MessageEnum.NOT_FOUND, true));
     }

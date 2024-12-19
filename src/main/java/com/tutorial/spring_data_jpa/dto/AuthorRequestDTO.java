@@ -2,31 +2,37 @@ package com.tutorial.spring_data_jpa.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
+import java.util.Date;
 
 public class AuthorRequestDTO {
 
     @NotBlank(message = "First name cannot be blank!")
     @Size(max = 100, message = "First name cannot exceed 100 characters!")
-    @Pattern(regexp = "^[\\p{L}]+(?:\\s[\\p{L}]+)*$", message = "First name must contain only letters from any alphabet!")
+    @Pattern(
+            regexp = "^[\\p{L}]+(?:\\s[\\p{L}]+)*$",
+            message = "First name must contain only letters from any alphabet!")
     @Schema(description = "Author's first name", example = "Burak")
     private String firstName;
 
     @NotBlank(message = "Last name cannot be blank!")
     @Size(max = 100, message = "Last name cannot exceed 100 characters!")
-    @Pattern(regexp = "^[\\p{L}]+(?:\\s[\\p{L}]+)*$", message = "Last name must contain only letters from any alphabet!")
+    @Pattern(
+            regexp = "^[\\p{L}]+(?:\\s[\\p{L}]+)*$",
+            message = "Last name must contain only letters from any alphabet!")
     @Schema(description = "Author's last name", example = "Karacan")
     private String lastName;
 
-    @NotNull(message = "Age is required")
-    @Min(value = 18, message = "Age must be at least 18!")
-    @Max(value = 100, message = "Age must be less than or equal to 100!")
-    @Schema(description = "Author's age", example = "30")
-    private Integer age;
+    @NotNull(message = "Birth date is required")
+    @Past(message = "Birth date must be in the past")
+    @Schema(description = "Author's birth date", example = "1990-01-15")
+    private Date birthDate;
 
-    @NotBlank(message = "Email cannot be blank!")
-    @Email(message = "Email should be a valid format!")
-    @Schema(description = "Author's email address", example = "burak.karacan@example.com")
-    private String email;
+    @PastOrPresent(message = "Death date must be in the past or present")
+    @Schema(description = "Author's death date", example = "2023-01-15")
+    private Date deathDate;
+
+    @Schema(description = "Author's biography", example = "Burak Karacan, ...")
+    private String biography;
 
     public String getFirstName() {
         return firstName;
@@ -44,20 +50,27 @@ public class AuthorRequestDTO {
         this.lastName = lastName;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public String getEmail() {
-        return email;
+    public Date getDeathDate() {
+        return deathDate;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDeathDate(Date deathDate) {
+        this.deathDate = deathDate;
     }
 
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
 }

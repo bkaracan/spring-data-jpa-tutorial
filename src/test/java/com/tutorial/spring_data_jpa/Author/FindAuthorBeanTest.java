@@ -1,20 +1,24 @@
 package com.tutorial.spring_data_jpa.Author;
 
-import com.tutorial.spring_data_jpa.bean.FindAuthorBean;
+import com.tutorial.spring_data_jpa.bean.Author.FindAuthorBean;
 import com.tutorial.spring_data_jpa.dto.AuthorResponseDTO;
 import com.tutorial.spring_data_jpa.entity.Author;
 import com.tutorial.spring_data_jpa.enums.MessageEnum;
 import com.tutorial.spring_data_jpa.enums.ResponseEnum;
+import com.tutorial.spring_data_jpa.mapper.AuthorMapper;
 import com.tutorial.spring_data_jpa.payload.ResponsePayload;
 import com.tutorial.spring_data_jpa.repository.AuthorRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class FindAuthorBeanTest {
@@ -22,28 +26,34 @@ class FindAuthorBeanTest {
     @Mock
     private AuthorRepository authorRepository;
 
+    @Mock
+    private AuthorMapper authorMapper;
+
+    @InjectMocks
     private FindAuthorBean findAuthorBean;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        findAuthorBean = new FindAuthorBean(authorRepository);
     }
 
     @Test
     void testFindById_Success() {
         Long authorId = 1L;
+        Date birthDate = new Date();
+
         AuthorResponseDTO authorDTO = AuthorResponseDTO.builder()
                 .id(authorId)
                 .firstName("John")
                 .lastName("Doe")
-                .age(27)
-                .email("johndoe@gmail.com")
+                .birthDate(birthDate)
+                .biography("Test Biography")
                 .build();
-        Author authorEntity = new Author(authorId, "John", "Doe", 27, "johndoe@gmail.com");
+        Author authorEntity = new Author(authorId, "John", "Doe", birthDate, null, "Test Biography");
 
 
         when(authorRepository.findById(authorId)).thenReturn(Optional.of(authorEntity));
+        when(authorMapper.toResponseDTO(any(Author.class))).thenReturn(authorDTO);
 
         ResponsePayload<AuthorResponseDTO> response = findAuthorBean.findById(authorId);
 
@@ -54,11 +64,13 @@ class FindAuthorBeanTest {
         assertEquals(authorDTO.getId(), response.getData().getId());
         assertEquals(authorDTO.getFirstName(), response.getData().getFirstName());
         assertEquals(authorDTO.getLastName(), response.getData().getLastName());
-        assertEquals(authorDTO.getAge(), response.getData().getAge());
-        assertEquals(authorDTO.getEmail(), response.getData().getEmail());
+        assertEquals(authorDTO.getBirthDate(), response.getData().getBirthDate());
+        assertEquals(authorDTO.getBiography(), response.getData().getBiography());
+
         assertFalse(response.getShowNotification());
 
         verify(authorRepository, times(1)).findById(authorId);
+        verify(authorMapper, times(1)).toResponseDTO(any(Author.class));
     }
 
     @Test

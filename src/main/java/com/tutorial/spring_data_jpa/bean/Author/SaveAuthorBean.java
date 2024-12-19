@@ -1,4 +1,4 @@
-package com.tutorial.spring_data_jpa.bean;
+package com.tutorial.spring_data_jpa.bean.Author;
 
 import com.tutorial.spring_data_jpa.dto.AuthorRequestDTO;
 import com.tutorial.spring_data_jpa.dto.AuthorResponseDTO;
@@ -18,32 +18,30 @@ import org.springframework.transaction.annotation.Transactional;
 public class SaveAuthorBean extends AbstractResponsePayload {
 
   private final AuthorRepository authorRepository;
+
   private final AuthorMapper authorMapper;
 
   @Autowired
   public SaveAuthorBean(AuthorRepository authorRepository, AuthorMapper authorMapper) {
     this.authorRepository = authorRepository;
-    this.authorMapper = authorMapper;
+      this.authorMapper = authorMapper;
   }
 
   @Transactional
   public ResponsePayload<AuthorResponseDTO> save(AuthorRequestDTO requestDTO) {
 
-    Optional<Author> existingAuthor = authorRepository.findByEmail(requestDTO.getEmail());
+    Optional<Author> existingAuthor =
+            authorRepository.findByFirstNameAndLastName(
+                    requestDTO.getFirstName(), requestDTO.getLastName());
 
     if (existingAuthor.isPresent()) {
-      return createErrorResponse(ResponseEnum.BAD_REQUEST,MessageEnum.AUTHOR_ALREADY_EXISTS.getMessage());
+      return createErrorResponse(
+              ResponseEnum.BAD_REQUEST, MessageEnum.AUTHOR_ALREADY_EXISTS.getMessage());
     }
 
-    Author author =
-        new Author(
-            requestDTO.getFirstName(),
-            requestDTO.getLastName(),
-            requestDTO.getAge(),
-            requestDTO.getEmail());
+    Author author = authorMapper.toEntity(requestDTO);
     Author savedAuthor = authorRepository.save(author);
     return createSuccessResponse(
-        MessageEnum.SAVE_SUCCESS.getMessage(), authorMapper.toResponseDTO(savedAuthor));
+            MessageEnum.SAVE_SUCCESS.getMessage(), authorMapper.toResponseDTO(savedAuthor));
   }
-
 }

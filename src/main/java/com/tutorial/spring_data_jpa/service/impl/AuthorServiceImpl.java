@@ -1,6 +1,6 @@
 package com.tutorial.spring_data_jpa.service.impl;
 
-import com.tutorial.spring_data_jpa.bean.*;
+import com.tutorial.spring_data_jpa.bean.Author.*;
 import com.tutorial.spring_data_jpa.dto.AuthorRequestDTO;
 import com.tutorial.spring_data_jpa.dto.AuthorResponseDTO;
 import com.tutorial.spring_data_jpa.payload.ResponsePayload;

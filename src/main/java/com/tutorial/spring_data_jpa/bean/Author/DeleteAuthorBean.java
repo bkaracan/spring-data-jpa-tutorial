@@ -1,4 +1,4 @@
-package com.tutorial.spring_data_jpa.bean;
+package com.tutorial.spring_data_jpa.bean.Author;
 
 import com.tutorial.spring_data_jpa.enums.MessageEnum;
 import com.tutorial.spring_data_jpa.enums.ResponseEnum;

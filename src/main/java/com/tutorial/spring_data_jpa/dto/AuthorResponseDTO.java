@@ -1,19 +1,24 @@
 package com.tutorial.spring_data_jpa.dto;
 
+import java.util.Date;
+
 public class AuthorResponseDTO {
 
     private Long id;
     private String firstName;
     private String lastName;
-    private Integer age;
-    private String email;
+    private Date birthDate;
+    private Date deathDate;
+    private String biography;
+
 
     private AuthorResponseDTO(Builder builder) {
         this.id = builder.id;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
-        this.age = builder.age;
-        this.email = builder.email;
+        this.birthDate = builder.birthDate;
+        this.deathDate = builder.deathDate;
+        this.biography = builder.biography;
     }
 
     public Long getId() {
@@ -28,20 +33,25 @@ public class AuthorResponseDTO {
         return lastName;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public String getEmail() {
-        return email;
+    public Date getDeathDate() {
+        return deathDate;
+    }
+
+    public String getBiography() {
+        return biography;
     }
 
     public static class Builder {
         private Long id;
         private String firstName;
         private String lastName;
-        private Integer age;
-        private String email;
+        private Date birthDate;
+        private Date deathDate;
+        private String biography;
 
         public Builder id(Long id) {
             this.id = id;
@@ -58,13 +68,18 @@ public class AuthorResponseDTO {
             return this;
         }
 
-        public Builder age(Integer age) {
-            this.age = age;
+        public Builder birthDate(Date birthDate) {
+            this.birthDate = birthDate;
             return this;
         }
 
-        public Builder email(String email) {
-            this.email = email;
+        public Builder deathDate(Date deathDate) {
+            this.deathDate = deathDate;
+            return this;
+        }
+
+        public Builder biography(String biography) {
+            this.biography = biography;
             return this;
         }
 

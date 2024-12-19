@@ -6,35 +6,37 @@ import com.tutorial.spring_data_jpa.entity.Author;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class AuthorMapper {
 
-    
-    public static Author toEntity(AuthorRequestDTO dto) {
+
+    public Author toEntity(AuthorRequestDTO dto) {
         if (dto == null) {
             return null;
         }
         Author author = new Author();
         author.setFirstName(dto.getFirstName());
         author.setLastName(dto.getLastName());
-        author.setAge(dto.getAge());
-        author.setEmail(dto.getEmail());
+        author.setBirthDate(dto.getBirthDate());
+        author.setDeathDate(dto.getDeathDate());
+        author.setBiography(dto.getBiography());
         return author;
     }
 
-    
-    public static List<Author> toEntityList(List<AuthorRequestDTO> dtoList) {
+
+    public List<Author> toEntityList(List<AuthorRequestDTO> dtoList) {
         if (dtoList == null || dtoList.isEmpty()) {
             return List.of();
         }
         return dtoList.stream()
-                .map(AuthorMapper::toEntity)
-                .toList();
+                .map(this::toEntity)
+                .collect(Collectors.toList());
     }
 
-    
-    public static AuthorResponseDTO toResponseDTO(Author entity) {
+
+    public AuthorResponseDTO toResponseDTO(Author entity) {
         if (entity == null) {
             return null;
         }
@@ -42,18 +44,19 @@ public class AuthorMapper {
                 .id(entity.getId())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
-                .age(entity.getAge())
-                .email(entity.getEmail())
+                .birthDate(entity.getBirthDate())
+                .deathDate(entity.getDeathDate())
+                .biography(entity.getBiography())
                 .build();
     }
 
-   
-    public static List<AuthorResponseDTO> toResponseDTOList(List<Author> entityList) {
+
+    public List<AuthorResponseDTO> toResponseDTOList(List<Author> entityList) {
         if (entityList == null || entityList.isEmpty()) {
             return List.of();
         }
         return entityList.stream()
-                .map(AuthorMapper::toResponseDTO)
-                .toList();
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
     }
 }

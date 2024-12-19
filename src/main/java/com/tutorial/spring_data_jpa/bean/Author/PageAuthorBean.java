@@ -1,4 +1,4 @@
-package com.tutorial.spring_data_jpa.bean;
+package com.tutorial.spring_data_jpa.bean.Author;
 
 import com.tutorial.spring_data_jpa.dto.AuthorResponseDTO;
 import com.tutorial.spring_data_jpa.enums.MessageEnum;
@@ -21,16 +21,19 @@ public class PageAuthorBean extends AbstractResponsePayload {
 
     private final AuthorRepository authorRepository;
 
+    private final AuthorMapper authorMapper;
+
     @Autowired
-    public PageAuthorBean(AuthorRepository authorRepository) {
+    public PageAuthorBean(AuthorRepository authorRepository, AuthorMapper authorMapper) {
         this.authorRepository = authorRepository;
+        this.authorMapper = authorMapper;
     }
 
     public ResponsePayload<List<AuthorResponseDTO>> getAuthorsByPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<AuthorResponseDTO> authorPage = authorRepository
                 .findAll(pageable)
-                .map(AuthorMapper::toResponseDTO);
+                .map(authorMapper::toResponseDTO);
 
         if (authorPage.isEmpty()) {
             return createErrorResponse(ResponseEnum.NOT_FOUND, MessageEnum.EMPTY_LIST, false);

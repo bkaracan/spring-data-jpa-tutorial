@@ -1,4 +1,4 @@
-package com.tutorial.spring_data_jpa.bean;
+package com.tutorial.spring_data_jpa.bean.Author;
 
 import com.tutorial.spring_data_jpa.dto.AuthorResponseDTO;
 import com.tutorial.spring_data_jpa.enums.MessageEnum;
@@ -18,13 +18,16 @@ public class ListAuthorBean extends AbstractResponsePayload {
 
     private final AuthorRepository authorRepository;
 
+    private final AuthorMapper authorMapper;
+
     @Autowired
-    public ListAuthorBean(AuthorRepository authorRepository) {
+    public ListAuthorBean(AuthorRepository authorRepository, AuthorMapper authorMapper) {
         this.authorRepository = authorRepository;
+        this.authorMapper = authorMapper;
     }
 
     public ResponsePayload<List<AuthorResponseDTO>> getAllAuthors() {
-        List<AuthorResponseDTO> authorList = AuthorMapper.toResponseDTOList(authorRepository.findAll(Sort.by(Sort.Direction.ASC, "firstName")));
+        List<AuthorResponseDTO> authorList = authorMapper.toResponseDTOList(authorRepository.findAll(Sort.by(Sort.Direction.ASC, "firstName")));
 
         if (authorList.isEmpty()) {
             return createErrorResponse(ResponseEnum.NOT_FOUND, MessageEnum.EMPTY_LIST, false);

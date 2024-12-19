@@ -11,8 +11,8 @@ public enum MessageEnum {
     RECORD_EXISTS(8, "The record already exists!"),
     EMPTY_LIST(9, "The list is empty!"),
     AUTHOR_ALREADY_EXISTS(10, "The author already exists!"),
-    WRONG_EMAIL_FORMAT(11, "The email is not formatted!");
-
+    AUTHOR_NOT_FOUND(11, "The author does not exist!"),
+    BOOK_ALREADY_EXISTS(12, "The book already exists!" ),;
     private final Integer code;
     private final String message;
     

@@ -18,7 +18,7 @@ public class GlobalExceptionHandler extends AbstractResponsePayload {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ResponsePayload<Map<String, String>>> handleValidationExceptions(
-      MethodArgumentNotValidException ex) {
+          MethodArgumentNotValidException ex) {
 
     Map<String, String> errors = new HashMap<>();
     for (FieldError error : ex.getBindingResult().getFieldErrors()) {
@@ -26,15 +26,14 @@ public class GlobalExceptionHandler extends AbstractResponsePayload {
     }
 
     ResponsePayload<Map<String, String>> response =
-        ResponsePayload.error(ResponseEnum.BAD_REQUEST, MessageEnum.WRONG_EMAIL_FORMAT, true);
-    response =
-        new ResponsePayload.Builder<Map<String, String>>()
-            .statusCode(ResponseEnum.BAD_REQUEST.getHttpStatusCode())
-            .description(ResponseEnum.BAD_REQUEST.getDescription())
-            .isSuccess(ResponseEnum.BAD_REQUEST.getSuccess())
-            .data(errors)
-            .showNotification(true)
-            .build();
+            new ResponsePayload.Builder<Map<String, String>>()
+                    .statusCode(ResponseEnum.BAD_REQUEST.getHttpStatusCode())
+                    .description(ResponseEnum.BAD_REQUEST.getDescription())
+                    .isSuccess(ResponseEnum.BAD_REQUEST.getSuccess())
+                    .data(errors)
+                    .message(MessageEnum.AUTHOR_ALREADY_EXISTS.getMessage())
+                    .showNotification(true)
+                    .build();
 
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }

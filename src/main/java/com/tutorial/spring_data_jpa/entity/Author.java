@@ -3,18 +3,21 @@ package com.tutorial.spring_data_jpa.entity;
 import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "author")
 public class Author implements Serializable {
 
-  @Serial private static final long serialVersionUID = 1L;
+  @Serial
+  private static final long serialVersionUID = 1L;
 
   @Id
   @SequenceGenerator(
-      name = "AUTHOR_ID_GENERATOR",
-      allocationSize = 1,
-      sequenceName = "AUTHOR_ID_GEN")
+          name = "AUTHOR_ID_GENERATOR",
+          allocationSize = 1,
+          sequenceName = "AUTHOR_ID_GEN")
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AUTHOR_ID_GENERATOR")
   @Column(unique = true, nullable = false)
   private Long id;
@@ -25,11 +28,21 @@ public class Author implements Serializable {
   @Column(name = "last_name", nullable = false, length = 100)
   private String lastName;
 
-  @Column(nullable = false)
-  private Integer age;
+  @Column(name = "birth_date", nullable = false)
+  @Temporal(TemporalType.DATE)
+  private Date birthDate;
 
-  @Column(unique = true, nullable = false)
-  private String email;
+  @Column(name = "death_date", nullable = true)
+  @Temporal(TemporalType.DATE)
+  private Date deathDate;
+
+  @Lob
+  @Column(columnDefinition = "TEXT")
+  private String biography;
+
+  @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+  private List<Book> books;
+
 
   public Long getId() {
     return id;
@@ -55,35 +68,53 @@ public class Author implements Serializable {
     this.lastName = lastName;
   }
 
-  public Integer getAge() {
-    return age;
+  public Date getBirthDate() {
+    return birthDate;
   }
 
-  public void setAge(Integer age) {
-    this.age = age;
+  public void setBirthDate(Date birthDate) {
+    this.birthDate = birthDate;
   }
 
-  public String getEmail() {
-    return email;
+  public Date getDeathDate() {
+    return deathDate;
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public void setDeathDate(Date deathDate) {
+    this.deathDate = deathDate;
   }
 
-  public Author(Long id, String firstName, String lastName, Integer age, String email) {
+  public String getBiography() {
+    return biography;
+  }
+
+  public void setBiography(String biography) {
+    this.biography = biography;
+  }
+
+  public List<Book> getBooks() {
+    return books;
+  }
+
+  public void setBooks(List<Book> books) {
+    this.books = books;
+  }
+
+  public Author(Long id, String firstName, String lastName, Date birthDate, Date deathDate, String biography) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.age = age;
-    this.email = email;
+    this.birthDate = birthDate;
+    this.deathDate = deathDate;
+    this.biography = biography;
   }
 
-  public Author(String firstName, String lastName, Integer age, String email) {
+  public Author(String firstName, String lastName, Date birthDate, Date deathDate, String biography) {
     this.firstName = firstName;
     this.lastName = lastName;
-    this.age = age;
-    this.email = email;
+    this.birthDate = birthDate;
+    this.deathDate = deathDate;
+    this.biography = biography;
   }
 
   public Author() {}
