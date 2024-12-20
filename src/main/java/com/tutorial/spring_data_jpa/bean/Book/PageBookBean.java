@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class PageBookBean extends AbstractResponsePayload {
         this.bookMapper = bookMapper;
     }
 
+    @Transactional(readOnly = true)
     public ResponsePayload<List<BookResponseDTO>> getBooksByPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Book> bookPage = bookRepository.findAll(pageable);
@@ -41,6 +43,7 @@ public class PageBookBean extends AbstractResponsePayload {
     }
 
 
+    @Transactional(readOnly = true)
     public ResponsePayload<List<BookResponseDTO>> getBooksByAuthorIdByPage(Long authorId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Book> bookPage = bookRepository.findByAuthorId(authorId,pageable);

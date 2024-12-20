@@ -31,7 +31,6 @@ public class GlobalExceptionHandler extends AbstractResponsePayload {
                     .description(ResponseEnum.BAD_REQUEST.getDescription())
                     .isSuccess(ResponseEnum.BAD_REQUEST.getSuccess())
                     .data(errors)
-                    .message(MessageEnum.AUTHOR_ALREADY_EXISTS.getMessage())
                     .showNotification(true)
                     .build();
 
