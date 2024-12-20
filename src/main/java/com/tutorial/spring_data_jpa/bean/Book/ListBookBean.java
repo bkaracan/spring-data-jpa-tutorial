@@ -11,6 +11,7 @@ import com.tutorial.spring_data_jpa.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class ListBookBean extends AbstractResponsePayload {
         this.bookMapper = bookMapper;
     }
 
+    @Transactional(readOnly = true)
     public ResponsePayload<List<BookResponseDTO>> getAllBooks() {
         List<Book> bookList = bookRepository.findAll(Sort.by(Sort.Direction.ASC, "bookName"));
         List<BookResponseDTO> bookResponseDTOList = bookMapper.toResponseDTOList(bookList);
@@ -38,6 +40,7 @@ public class ListBookBean extends AbstractResponsePayload {
         return createSuccessResponse(MessageEnum.FETCH_SUCCESS.getMessage(), bookResponseDTOList);
     }
 
+    @Transactional(readOnly = true)
     public ResponsePayload<List<BookResponseDTO>> getBooksByAuthorId(Long authorId) {
         List<Book> bookList = bookRepository.findByAuthorId(authorId,Sort.by(Sort.Direction.ASC, "bookName"));
         List<BookResponseDTO> bookResponseDTOList = bookMapper.toResponseDTOList(bookList);

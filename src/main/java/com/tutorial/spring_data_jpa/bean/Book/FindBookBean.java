@@ -10,6 +10,7 @@ import com.tutorial.spring_data_jpa.payload.ResponsePayload;
 import com.tutorial.spring_data_jpa.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -26,6 +27,7 @@ public class FindBookBean extends AbstractResponsePayload {
       this.bookMapper = bookMapper;
   }
 
+  @Transactional(readOnly = true)
   public ResponsePayload<BookResponseDTO> findById(Long id) {
     Optional<Book> bookOptional = bookRepository.findById(id);
 
